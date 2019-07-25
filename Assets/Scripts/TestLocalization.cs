@@ -9,8 +9,8 @@ public class TestLocalization : Localization
     {
         return new Dictionary<string, string>
         {
-            {"A", "a"},
-            {"B", "b"}
+            {"MAIN_TITLE", "Main Title"},
+            {"CLOSE_BTN", "Close"}
         };
     }
 }
