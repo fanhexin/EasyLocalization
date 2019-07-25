@@ -33,7 +33,7 @@ public class TestLocalization : Localization
 
 在场景中通过`UI > LocalizationText`添加带有多语言功能的`Text`控件，其带有自定义的`Inspector`，可直接通过`LocalizationKey`选择所关联的字典`Key`。 如下图所示：
 
-![](images/LocalizationTextInspector.png)
+![](Images/LocalizationTextInspector.png)
 
 ## 代码中查询`Key`值
 
@@ -57,4 +57,4 @@ Localization.instance.UpdateDic(dic);
 有时在编辑器启动的状态下，多语言配置文件发生了更新，这时需要进行重新加载，以便`LocalizationText Inspector`上能显示新的Key或Value值。
 可通过点击`Localization`子类的资源文件`Inspector`上的`Reload`按钮实现。如下图：
 
-![](images/Reload.png)
+![](Images/Reload.png)
