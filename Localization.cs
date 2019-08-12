@@ -1,12 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace EasyLocalization
 {
     public abstract class Localization : ScriptableObject
     {
-        public static Localization instance { get; private set; }
+        static Localization _instance;
+        public static Localization instance
+        {
+            get
+            {
+#if UNITY_EDITOR
+                if (_instance == null)
+                {
+                    string[] ret = AssetDatabase.FindAssets($"t: {nameof(Localization)}");
+                    if (ret == null || ret.Length == 0)
+                    {
+                        throw new Exception($"{nameof(Localization)}'s implementation not found!");
+                    }
+
+                    _instance = AssetDatabase.LoadAssetAtPath<Localization>(AssetDatabase.GUIDToAssetPath(ret[0]));
+                }
+#endif
+                return _instance;
+            }
+        }
 
         public event Action ZoneChangeEv;
     
@@ -26,20 +49,39 @@ namespace EasyLocalization
 
         [NonSerialized]
         IReadOnlyDictionary<string, string> _dic;
-
+        
         protected Localization()
         {
-            if (instance != null)
+            if (_instance != null)
             {
-                throw new Exception($"{name} need to be singleton!");
+                throw new Exception("Localization need to be singleton!");
             }
-            instance = this;
+            _instance = this;
         }
 
         protected virtual void OnEnable()
         {
             _dic = LoadDic();
         }
+        
+#if UNITY_EDITOR
+        public IEnumerable<string> keys => _dic.Keys;
+        public void Reload()
+        {
+            UpdateDic(LoadDic());
+        }
+        
+        void Reset()
+        {
+            var preloadedAssets = PlayerSettings.GetPreloadedAssets().ToList();
+            if (preloadedAssets.Exists(x => x is Localization))
+            {
+                return;
+            }
+            preloadedAssets.Add(this);
+            PlayerSettings.SetPreloadedAssets(preloadedAssets.ToArray());
+        }
+#endif
 
         protected abstract IReadOnlyDictionary<string, string> LoadDic();
 
@@ -53,13 +95,5 @@ namespace EasyLocalization
             _dic = dic;
             ZoneChangeEv?.Invoke();
         }
-        
-#if UNITY_EDITOR
-        public IEnumerable<string> keys => _dic.Keys;
-        public void Reload()
-        {
-            UpdateDic(LoadDic());
-        }
-#endif
     }
 }
