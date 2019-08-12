@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace EasyLocalization
@@ -8,7 +7,6 @@ namespace EasyLocalization
     public class LocalizationText : Text
     {
         [SerializeField] string _localizationKey;
-        [SerializeField] Localization _localization;
 
         public string localizationKey
         {
@@ -21,42 +19,22 @@ namespace EasyLocalization
 
         object[] _formatArgs;
 
-        #if UNITY_EDITOR
-        protected override void Reset()
-        {
-            base.Reset();
-            if (_localization != null)
-            {
-                return;
-            }
-
-            string[] ret = AssetDatabase.FindAssets($"t: {nameof(Localization)}");
-            if (ret == null || ret.Length == 0)
-            {
-                Debug.LogError($"{nameof(Localization)}'s implementation not found!");
-                return;
-            }
-
-            _localization = AssetDatabase.LoadAssetAtPath<Localization>(AssetDatabase.GUIDToAssetPath(ret[0]));
-        }
-        #endif
-
         protected override void Start()
         {
             base.Start();
             UpdateText();
-            _localization.ZoneChangeEv += UpdateText;
+            Localization.instance.ZoneChangeEv += UpdateText;
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            _localization.ZoneChangeEv -= UpdateText;
+            Localization.instance.ZoneChangeEv -= UpdateText;
         }
 
         void UpdateText()
         {
-            string value = _localization[_localizationKey];
+            string value = Localization.instance[_localizationKey];
             if (!string.IsNullOrEmpty(value))
             {
                 text = _formatArgs == null ? value : string.Format(value, _formatArgs);
@@ -70,7 +48,7 @@ namespace EasyLocalization
 
         public void FormatByKey(string localizationKey, params object[] args)
         {
-            string value = _localization[localizationKey];
+            string value = Localization.instance[localizationKey];
             text = string.Format(string.IsNullOrEmpty(value)?text:value, args);
             _formatArgs = args;
         }

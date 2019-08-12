@@ -377,9 +377,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: b
-  _localizationKey: B
-  _localization: {fileID: 11400000, guid: 6e18d6d1303a94f2ba180864f593ba4c, type: 2}
+  m_Text: Main Title
+  _localizationKey: MAIN_TITLE
 --- !u!222 &1071146751
 CanvasRenderer:
   m_ObjectHideFlags: 0
