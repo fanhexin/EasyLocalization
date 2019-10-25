@@ -135,6 +135,7 @@ namespace EasyLocalization.Editor
                 lt.color = color;
 //                if (mat) lt.material = mat;
                 lt.raycastTarget = raycastTarget;
+                lt.text = t.text;
             }
         }
 
