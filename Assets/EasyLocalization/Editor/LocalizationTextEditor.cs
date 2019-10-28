@@ -92,10 +92,10 @@ namespace EasyLocalization.Editor
             Selection.activeGameObject = go;
         }
 
-        [MenuItem("GameObject/Text to LocalizationText", false, 0)]
+        [MenuItem("CONTEXT/Text/ToLocalizationText")]
         public static void Text2LocalizationText(MenuCommand menuCommand)
         {
-            var parent = menuCommand.context as GameObject;
+            var parent = (menuCommand.context as Text).gameObject;
             if (parent == null)
             {
                 return;
@@ -119,8 +119,8 @@ namespace EasyLocalization.Editor
 //                var mat = t.material;
                 var raycastTarget = t.raycastTarget;
                 
-                DestroyImmediate(t);
-                var lt = go.AddComponent<LocalizationText>();
+                Undo.DestroyObjectImmediate(t);
+                var lt = Undo.AddComponent<LocalizationText>(go);
 //                LocalizationTextDefaultSetting(lt);
                 lt.font = font;
                 lt.fontSize = fontSize;
@@ -137,6 +137,12 @@ namespace EasyLocalization.Editor
                 lt.raycastTarget = raycastTarget;
                 lt.text = t.text;
             }
+        }
+
+        [MenuItem("CONTEXT/Text/ToLocalizationText", true)]
+        public static bool Text2LocalizationTextValidate(MenuCommand menuCommand)
+        {
+            return menuCommand.context is Text && !(menuCommand.context is LocalizationText);
         }
 
         static void LocalizationTextDefaultSetting(LocalizationText lt)
