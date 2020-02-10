@@ -6,7 +6,7 @@
 
 ```json
 {
-  "com.yj.easylocalization": "http://192.168.0.254:8081/common/easylocalization.git#upm"
+  "com.github.fanhexin.easylocalization": "https://github.com/fanhexin/EasyLocalization.git#upm"
 }
 ```
 
