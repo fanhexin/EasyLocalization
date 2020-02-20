@@ -28,6 +28,10 @@ namespace EasyLocalization.Editor
                 {
                     string[] languages = _target.dataProvider.Languages.ToArray();
                     int index = Array.FindIndex(languages, v => v == _target.language);
+                    if (index < 0)
+                    {
+                        index = 0;
+                    }
                     index = EditorGUILayout.Popup("Default Language", index, languages);
                     _target.language = languages[index];
                 }
