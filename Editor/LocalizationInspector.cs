@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
+using System.Reflection;
 using UnityEditor;
+using UnityEngine;
 
 namespace EasyLocalization.Editor
 {
@@ -33,6 +35,16 @@ namespace EasyLocalization.Editor
                 if (cc.changed)
                 {
                     serializedObject.ApplyModifiedProperties();
+                }
+            }
+
+            if (GUILayout.Button("Reload"))
+            {
+                foreach (var localizationText in FindObjectsOfType<LocalizationText>())
+                {
+                    localizationText.GetType()
+                        .GetMethod("UpdateText", BindingFlags.Instance | BindingFlags.NonPublic)
+                        .Invoke(localizationText, null);
                 }
             }
         }
