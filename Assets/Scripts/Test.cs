@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using EasyLocalization;
+﻿using EasyLocalization;
 using UnityEngine;
 
 public class Test : MonoBehaviour
@@ -12,10 +11,6 @@ public class Test : MonoBehaviour
     [ContextMenu("changdic")]
     void ChangeDic()
     {
-        _localization.UpdateDic(new Dictionary<string, string>
-        {
-            {"A", "A"},
-            {"B", "B"}
-        });
+        _localization.language = SystemLanguage.Chinese.ToString();
     }
 }

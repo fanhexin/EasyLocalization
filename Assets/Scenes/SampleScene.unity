@@ -124,7 +124,6 @@ GameObject:
   - component: {fileID: 151859145}
   - component: {fileID: 151859144}
   - component: {fileID: 151859143}
-  - component: {fileID: 151859147}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -212,19 +211,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &151859147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 151859142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f6145b63f3224c1897a18b630b39129, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _localization: {fileID: 11400000, guid: 6e18d6d1303a94f2ba180864f593ba4c, type: 2}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,7 +339,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1071146748}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2789f7a27aa1c4a7a9162bc0f2620536, type: 3}
+  m_Script: {fileID: 11500000, guid: 95c0547b1845143e3a57d1af3b562e61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -362,8 +348,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 14
@@ -374,11 +358,11 @@ MonoBehaviour:
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 0
-    m_HorizontalOverflow: 1
-    m_VerticalOverflow: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Main Title
-  _localizationKey: MAIN_TITLE
+  m_Text: title_1
+  _localizationKey: TITLE_1
 --- !u!222 &1071146751
 CanvasRenderer:
   m_ObjectHideFlags: 0
