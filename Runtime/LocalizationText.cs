@@ -23,13 +23,13 @@ namespace EasyLocalization
         {
             base.Start();
             UpdateText();
-            Localization.instance.ZoneChangeEv += UpdateText;
+            Localization.instance.changed += UpdateText;
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            Localization.instance.ZoneChangeEv -= UpdateText;
+            Localization.instance.changed -= UpdateText;
         }
 
         void UpdateText()
