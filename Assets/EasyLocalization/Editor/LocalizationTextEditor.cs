@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Globalization;
-using System.Linq;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
@@ -13,18 +11,35 @@ namespace EasyLocalization.Editor
     {
         readonly float _width;
         readonly float _height;
-        Vector2 _scrollViewPos;
         readonly SearchField _searchField = new SearchField();
-        string _searchText = "";
-        public string selectKey { get; private set; }
+        private readonly ListView _listView;
         public event Action<string> selectKeyEv;
 
         public LocalizationKeySelectWindow(float width, float height)
         {
             _width = width;
             _height = height;
+            _listView = new ListView(new TreeViewState(), Localization.instance.keys);
         }
-        
+
+        void OnSelectionChanged(string key)
+        {
+            selectKeyEv?.Invoke(key);
+            editorWindow.Close();
+        }
+
+        public override void OnOpen()
+        {
+            base.OnOpen();
+            _listView.OnSelectionChanged += OnSelectionChanged;
+        }
+
+        public override void OnClose()
+        {
+            base.OnClose();
+            _listView.OnSelectionChanged -= OnSelectionChanged;
+        }
+
         public override Vector2 GetWindowSize()
         {
             return new Vector2(_width, _height);
@@ -32,34 +47,19 @@ namespace EasyLocalization.Editor
 
         public override void OnGUI(Rect rect)
         {
-            EditorGUILayout.BeginVertical();
-            EditorGUILayout.Space();
-            var searchRect = GUILayoutUtility.GetRect(0, EditorGUIUtility.singleLineHeight);
-            _searchText = _searchField.OnGUI(searchRect, _searchText);
-            EditorGUILayout.Space();
-            EditorGUILayout.EndVertical();
-            
-            Color bakColor = GUI.backgroundColor;
-            GUI.backgroundColor = Color.red;
-            if (GUILayout.Button("Clear") && selectKeyEv != null)
+            EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
+            _listView.searchString = _searchField.OnToolbarGUI(_listView.searchString);
+            GUILayout.Space(5); 
+            if (GUILayout.Button("Clear", EditorStyles.toolbarButton) && selectKeyEv != null)
             {
                 selectKeyEv(string.Empty);
                 editorWindow.Close();
             }
-
-            GUI.backgroundColor = bakColor;
             
-            _scrollViewPos = EditorGUILayout.BeginScrollView(_scrollViewPos);
-            foreach (var key in Localization.instance.keys
-                .Where(x => CultureInfo.InvariantCulture.CompareInfo
-                .IndexOf(x, _searchText, CompareOptions.IgnoreCase) >= 0))
-            {
-                if (!GUILayout.Button(key)) continue;
-                selectKeyEv?.Invoke(key);
-                editorWindow.Close();
-                return;
-            }
-            EditorGUILayout.EndScrollView();
+            EditorGUILayout.EndHorizontal();
+
+            var listViewRect = GUILayoutUtility.GetRect(rect.width, rect.height - EditorStyles.foldout.fixedHeight);
+            _listView.OnGUI(listViewRect);
         }
     }
     
