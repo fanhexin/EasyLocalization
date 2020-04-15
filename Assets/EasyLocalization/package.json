@@ -1,8 +1,11 @@
 {
-    "name": "com.github.fanhexin.easylocalization",
+    "name": "com.hpcfun.easylocalization",
     "displayName": "EasyLocalization",
     "version": "1.0.0",
     "unity": "2018.3",
     "description": "UI文本多语言的简单实现",
-    "keywords": ["localization", "text", "assetbundle"]
+    "keywords": ["localization", "text"],
+    "dependencies": {
+        "com.unity.modules.ui": "1.0.0"
+    }
 }
